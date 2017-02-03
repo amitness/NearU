@@ -1,11 +1,14 @@
 {% extends "layout.html" %}
 {% block title %}NearU{% endblock %}
 {% block resources %}
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/materialize.min.css') }}"  media="screen,projection"/>
 <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 {% block content %}
 <h1>TODO: Design Frontend Here</h1>
 {% endblock %}
 {% block scripts %}
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"> </script>
 {% endblock %}
