@@ -12,7 +12,7 @@ class Company(db.Model):
     location = db.Column(db.String(255))
     description = db.Column(db.Text)
     org_type = db.Column(db.String(20))
-
+    logo = db.Column(db.String(100))
     def __init__(self, name, location):
         self.name = name
         self.location = location
@@ -28,6 +28,7 @@ class Events(db.Model):
     dateTime = db.Column(db.DateTime)
     description = db.Column(db.Text)
     organizer = db.Column(db.Integer, db.ForeignKey('company.id'))
+    banner = db.Column(db.String(1000))
     def __init__(self, title, location):
         self.title = title
         self.location = location
@@ -47,6 +48,18 @@ class Reviews(db.Model):
         self.comment = comment
         self.rating = rating
         self.eventID = eventID
+
+class Landmark(db.Model):
+    __tablename__ = "Landmarks"
+    id = db.Column(db.Integer, primary_key=True)
+    location = db.Column(db.String(20))
+    description = db.Column(db.Text)
+    image = db.Column(db.String(1000))
+
+    def __init__ (self, location, description, image):
+        self.location = location
+        self.description = description
+        self.image = image
 
 @app.route('/')
 def home():
