@@ -1,8 +1,9 @@
 from app import db, Events, Company, Landmark, Reviews
 import pandas
+#a[0]import csv
 
 def insert_events():
-	event_data = pandas.read_csv('events.csv')
+	event_data = pandas.read_csv('events.csv', quotechar='"')
 	for i in range(len(event_data)):
 		event = Events(event_data['title'][i], 
 				event_data['location'][i],
@@ -14,12 +15,16 @@ def insert_events():
 	db.session.commit()
 #Insert hotels/shops
 def insert_company():
-	companies = pandas.read_csv('company.csv')
+	companies = pandas.read_csv('company2.csv', quotechar='"', na_filter=False)
 	for i in range(len(companies)):
-		company = Company(event_data['name'][i], 
-				event_data['location'][i],
-				event_data['description'][i],
-				event_data['org_type'][i],
-				event_data['logo'][i])
-		db.session.add(event)
+		company = Company( companies['name'][i], 
+			companies['location'][i],
+			companies['description'][i],
+			companies['org_type'][i],
+			companies['logo'][i])
+		db.session.add(company)
 	db.session.commit()
+	
+if __name__ == '__main__':
+	insert_events()
+	insert_company()
