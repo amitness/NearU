@@ -77,12 +77,7 @@ def home():
 @app.route('/response', methods=['POST'])
 def response():
     # print requests;
-    return jsonify({'text': 'response will go here'})
-
-
-@app.route('/chatbox')
-def chatbox():
-    return render_template('chatbox.html')
+    return jsonify({'text': 'Check the map.'})
 
 if __name__ == '__main__':
     print db
