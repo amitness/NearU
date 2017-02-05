@@ -49,9 +49,9 @@ $(function() {
 });
 
 
-function addPinpoint(coordinates) {
+function addPinpoint(coordinate) {
 	// Adds a pinpoint to Leafleft map
-	L.marker(coordinates).addTo(mymap)
+	L.marker(coordinate).addTo(mymap)
     .bindPopup("<b>Hello world!</b><br />I am a popup.");
 }
 
