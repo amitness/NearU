@@ -9,6 +9,7 @@ attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</
 id: 'mapbox.streets'
 }).addTo(mymap);
 
+// Test popup
 L.marker([27.67927, 85.34431]).addTo(mymap)
 .bindPopup("<b>Hello world!</b><br />I am a popup.");
 
