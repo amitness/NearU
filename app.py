@@ -1,72 +1,21 @@
+import os
 from flask import Flask, render_template, jsonify
-from flask_sqlalchemy import SQLAlchemy
+from models import db
 # import requests
 # import json
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost:3306/cb_core_db'
-db = SQLAlchemy(app)
 
+DB_USERNAME = os.getenv('DB_USERNAME')
+DB_PASSWORD = os.getenv('DB_PASSWORD')
 
-class Company(db.Model):
-    __table__name = "Company"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), unique=True)
-    location = db.Column(db.String(255))
-    description = db.Column(db.Text)
-    org_type = db.Column(db.String(20))
-    logo = db.Column(db.String(100))
+DATABASE_URI = 'mysql+pymysql://{}:{}@localhost:3306/cb_core_db'
+DATABASE_URI = DATABASE_URI.format(DB_USERNAME, DB_PASSWORD)
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
 
-    def __init__(self, name, location):
-        self.name = name
-        self.location = location
-
-    def __repr__(self):
-        return '<Company %r>' % self.name
-
-
-class Events(db.Model):
-    __tablename__ = "Events"
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255))
-    location = db.Column(db.String(255))
-    dateTime = db.Column(db.DateTime)
-    description = db.Column(db.Text)
-    organizer = db.Column(db.Integer, db.ForeignKey('company.id'))
-    banner = db.Column(db.String(1000))
-
-    def __init__(self, title, location):
-        self.title = title
-        self.location = location
-
-    def __repr__(self):
-        return '<Event %r>' % self.title
-
-
-class Reviews(db.Model):
-    __tablename__ = "Reviews"
-    id = db.Column(db.Integer, primary_key=True)
-    comment = db.Column(db.Text)
-    rating = db.Column(db.Float)
-    eventID = db.Column(db.Integer, db.ForeignKey('Events.id'))
-
-    def __init__(self, comment, rating, eventID):
-        self.comment = comment
-        self.rating = rating
-        self.eventID = eventID
-
-
-class Landmark(db.Model):
-    __tablename__ = "Landmarks"
-    id = db.Column(db.Integer, primary_key=True)
-    location = db.Column(db.String(20))
-    description = db.Column(db.Text)
-    image = db.Column(db.String(1000))
-
-    def __init__(self, location, description, image):
-        self.location = location
-        self.description = description
-        self.image = image
+# Initialize SQLAlchemy
+db.app = app
+db.init_app(app)
 
 
 @app.route('/')
