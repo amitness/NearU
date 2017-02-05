@@ -1,0 +1,11 @@
+body,html,#mapid,#wrapper{
+  height:100%;
+  width:100%;
+  margin:0;
+  padding:0;
+}
+
+#wrapper{
+  position:relative;
+  z-index :1;
+}
