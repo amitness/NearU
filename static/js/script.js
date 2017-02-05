@@ -19,7 +19,7 @@ $(function() {
         type: 'POST',
         success: function(response) {
         	var dummyLocations = [[27.67933, 85.34634],
-        					   	[27.67936, 85.34734]]
+        					   	[27.67936, 85.34734]];
         	var coordinates = [];
         	coordinates = dummyLocations; // For local dev
 
@@ -30,7 +30,7 @@ $(function() {
     		// Scroll down the chat history to latest message
 	        var elem = document.getElementById('chatHist');
 			elem.scrollTop = elem.scrollHeight;
-			if(coordinates.length != 0) {
+			if(coordinates.length !== 0) {
 				for(var i=0; i < coordinates.length; i++) {
 					addPinpoint(coordinates[i]);
 				}
