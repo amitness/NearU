@@ -1,11 +1,12 @@
 from flask import Flask, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import requests
-import json 
+# import json
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost:3306/cb_core_db'
 db = SQLAlchemy(app)
+
 
 class Company(db.Model):
     __table__name = "Company"
@@ -15,12 +16,14 @@ class Company(db.Model):
     description = db.Column(db.Text)
     org_type = db.Column(db.String(20))
     logo = db.Column(db.String(100))
+
     def __init__(self, name, location):
         self.name = name
         self.location = location
 
     def __repr__(self):
         return '<Company %r>' % self.name
+
 
 class Events(db.Model):
     __tablename__ = "Events"
@@ -31,6 +34,7 @@ class Events(db.Model):
     description = db.Column(db.Text)
     organizer = db.Column(db.Integer, db.ForeignKey('company.id'))
     banner = db.Column(db.String(1000))
+
     def __init__(self, title, location):
         self.title = title
         self.location = location
@@ -46,10 +50,11 @@ class Reviews(db.Model):
     rating = db.Column(db.Float)
     eventID = db.Column(db.Integer, db.ForeignKey('Events.id'))
 
-    def __init__ (self, comment, rating , eventID):
+    def __init__(self, comment, rating, eventID):
         self.comment = comment
         self.rating = rating
         self.eventID = eventID
+
 
 class Landmark(db.Model):
     __tablename__ = "Landmarks"
@@ -58,18 +63,23 @@ class Landmark(db.Model):
     description = db.Column(db.Text)
     image = db.Column(db.String(1000))
 
-    def __init__ (self, location, description, image):
+    def __init__(self, location, description, image):
         self.location = location
         self.description = description
         self.image = image
 
+
 @app.route('/')
 def home():
     return render_template('index.html')
+
+
 @app.route('/response', methods=['POST'])
 def response():
-    print requests;
+    # print requests;
     return jsonify({'text': 'response will go here'})
+
+
 @app.route('/chatbox')
 def chatbox():
     return render_template('chatbox.html')
