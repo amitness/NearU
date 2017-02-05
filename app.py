@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
-import requests
+# import requests
 # import json
 
 app = Flask(__name__)
@@ -77,12 +77,7 @@ def home():
 @app.route('/response', methods=['POST'])
 def response():
     # print requests;
-    return jsonify({'text': 'response will go here'})
-
-
-@app.route('/chatbox')
-def chatbox():
-    return render_template('chatbox.html')
+    return jsonify({'text': 'Check the map.'})
 
 if __name__ == '__main__':
     print db
