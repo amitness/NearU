@@ -1,5 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
+import requests
+import json 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost:3306/cb_core_db'
@@ -64,6 +66,13 @@ class Landmark(db.Model):
 @app.route('/')
 def home():
     return render_template('index.html')
+@app.route('/response', methods=['POST'])
+def response():
+    print requests;
+    return jsonify({'text': 'response will go here'})
+@app.route('/chatbox')
+def chatbox():
+    return render_template('chatbox.html')
 
 if __name__ == '__main__':
     print db
