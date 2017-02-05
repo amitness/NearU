@@ -14,13 +14,12 @@ def insert_events():
 	db.session.commit()
 #Insert hotels/shops
 def insert_company():
-	companies = pandas.read_csv('events.csv')
+	companies = pandas.read_csv('company.csv')
 	for i in range(len(companies)):
-		company = Company(event_data['title'][i], 
+		company = Company(event_data['name'][i], 
 				event_data['location'][i],
-				event_data['dateTime'][i],
 				event_data['description'][i],
-				event_data['organizer'][i],
-				event_data['banner'][i])
+				event_data['org_type'][i],
+				event_data['logo'][i])
 		db.session.add(event)
 	db.session.commit()
