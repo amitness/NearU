@@ -28,7 +28,6 @@ def response():
     # print requests;
     dummy_response = {
         'hasResults': True,
-        'resultType': 'event/place',
         'results': [
             {
                 'title': 'Event Name',
@@ -36,7 +35,8 @@ def response():
                 'lat': 27.67410,
                 'long': 85.31710,
                 'location': 'location',
-                'image': 'image location'
+                'image': 'image location',
+                'resultType': 'event/place'
             }
           ],
         'botReply': 'Reply from bot.'
