@@ -12,9 +12,12 @@ class Company(db.Model):
     org_type = db.Column(db.String(20))
     logo = db.Column(db.String(100))
 
-    def __init__(self, name, location):
+    def __init__(self, name, location, description, org_type, logo):
         self.name = name
         self.location = location
+        self.description = description
+        self.org_type = org_type
+        self.logo = logo
 
     def __repr__(self):
         return '<Company %r>' % self.name
@@ -30,9 +33,13 @@ class Events(db.Model):
     organizer = db.Column(db.Integer, db.ForeignKey('company.id'))
     banner = db.Column(db.String(1000))
 
-    def __init__(self, title, location):
+    def __init__(self, title, location, dateTime, description, organizer, banner):
         self.title = title
         self.location = location
+        self.dateTime = dateTime
+        self.description = description
+        self.organizer = organizer
+        self.banner = banner
 
     def __repr__(self):
         return '<Event %r>' % self.title
