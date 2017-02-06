@@ -4,11 +4,11 @@ db = SQLAlchemy()
 
 
 class Company(db.Model):
-    __table__name = "Company"
+    __table__name = "company"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True)
     location = db.Column(db.String(255))
-    description = db.Column(db.Text)
+    description = db.Column(db.String(2000))
     org_type = db.Column(db.String(20))
     logo = db.Column(db.String(100))
 
@@ -30,8 +30,8 @@ class Events(db.Model):
     location = db.Column(db.String(255))
     dateTime = db.Column(db.DateTime)
     description = db.Column(db.Text)
-    organizer = db.Column(db.Integer, db.ForeignKey('company.id'))
-    banner = db.Column(db.String(1000))
+    organizer = db.Column(db.String(255))
+    banner = db.Column(db.String(255))
 
     def __init__(self, title, location, dateTime, description, organizer, banner):
         self.title = title
