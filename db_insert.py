@@ -1,6 +1,6 @@
-from app import db, Events, Company, Landmark, Reviews
+from app import db
+from models import Events, Company, Landmark, Reviews
 import pandas
-#a[0]import csv
 
 def insert_events():
 	event_data = pandas.read_csv('events.csv', quotechar='"')
