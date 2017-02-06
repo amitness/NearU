@@ -10,7 +10,7 @@ attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</
 id: 'mapbox.streets'
 }).addTo(mymap);
 
-// Test popup
+// Display popup for current Location
 L.marker([27.67507,85.31400]).addTo(mymap)
 .bindPopup("<b>Your Location</b>");
 

@@ -18,23 +18,24 @@ $(function() {
         data: $('form').serialize(),
         type: 'POST',
         success: function(response) {
-        	var dummyLocations = [[27.67933, 85.34634],
-        					   	[27.67936, 85.34734]];
-        	var coordinates = [];
-        	coordinates = dummyLocations; // For local dev
-
+        	var replyMessage = 'Not found text.';
         	console.log(response);
-            reply = botMessage + response.text + botEnd;
+            if(response.hasResults) {
+            	replyMessage = response.botReply;
+            	var places = response.results;
+            	if(places.length !== 0) {
+            		for(var i = 0; i < places.length; i++) {
+            			addPinpoint(places[i]);
+            		}
+            	}
+            }
+
+        	reply = botMessage + replyMessage + botEnd;
             $('.chat-history').append(reply);
 
     		// Scroll down the chat history to latest message
 	        var elem = document.getElementById('chatHist');
 			elem.scrollTop = elem.scrollHeight;
-			if(coordinates.length !== 0) {
-				for(var i=0; i < coordinates.length; i++) {
-					addPinpoint(coordinates[i]);
-				}
-			}
         },
         error: function(error) {
             console.log(error);
@@ -49,10 +50,18 @@ $(function() {
 });
 
 
-function addPinpoint(coordinate) {
+function addPinpoint(place) {
 	// Adds a pinpoint to Leafleft map
-	L.marker(coordinate).addTo(mymap)
-    .bindPopup("<b>Hello world!</b><br />I am a popup.");
+	L.marker([place.lat, place.long])
+	.addTo(mymap)
+	.bindPopup(generateDetails(place));	
+}
+
+function generateDetails(place) {
+	return "<b>" + place.title + "</b>"
+		   + "<br><p><b>Location:</b> " + place.location + "</p>"
+	       + "<b>Details:</b>"
+	       + "<br><p>" + place.desc + "</p>";
 }
 
 

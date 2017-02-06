@@ -26,7 +26,22 @@ def home():
 @app.route('/response', methods=['POST'])
 def response():
     # print requests;
-    return jsonify({'text': 'Check the map.'})
+    dummy_response = {
+        'hasResults': True,
+        'resultType': 'event/place',
+        'results': [
+            {
+                'title': 'Event Name',
+                'desc': 'description',
+                'lat': 27.67410,
+                'long': 85.31710,
+                'location': 'location',
+                'image': 'image location'
+            }
+          ],
+        'botReply': 'Reply from bot.'
+    }
+    return jsonify(dummy_response)
 
 if __name__ == '__main__':
     print db
