@@ -13,7 +13,6 @@ def prepareReply(hasResult, all_result, resultType):
     reply = {}
     reply['hasResults'] = hasResult
     reply['results'] = all_result
-    reply['resultType'] = resultType
     reply['botReply'] = 'Query Complete. Showing results'
     return json.dumps(reply)
 
@@ -28,6 +27,7 @@ def getRestaurants():
         dict_data.pop('location')
         dict_data['location'] = location
         dict_data['lat'] = lat;
+        dict_data['resultType'] = 'place'
         dict_data['long'] = lng;
         dict_data['image'] = dict_data.pop('logo')
         dict_data['desc'] = dict_data.pop('description')
@@ -45,6 +45,7 @@ def getEvents():
         eventDict['location'] = location
         eventDict['lat'] = lat
         eventDict['long'] = lng
+        eventDict['resultType'] = 'event'
         eventDict.pop('_sa_instance_state')
         eventDict['image'] = eventDict.pop('banner')
         all_events.append(eventDict)
@@ -65,6 +66,41 @@ def sendReply(userText):
     
     reply = prepareReply(has_result, result, keyword)
     return reply
-        
+
+def getEventByID(event_id):
+    events = db.session.query(Events).filter_by(id=event_id).all()
+    hasResults = len(events)>0
+    all_events = []
+    for event in events:
+        location, lat, lng = event.location.split(',')
+        eventDict = event.__dict__
+        eventDict.pop('location')
+        eventDict['location'] = location
+        eventDict['lat'] = lat
+        eventDict['long'] = lng
+        eventDict['resultType'] = 'event'
+        eventDict.pop('_sa_instance_state')
+        eventDict['image'] = eventDict.pop('banner')
+        all_events.append(eventDict)
+    return prepareReply(hasResults, all_events, 'event')
+
+def getRestaurantsByID(r_id):
+    restaurants = db.session.query(Company).filter_by(id=r_id).all()
+    hasResults = len(restaurants)>0
+    all_results = []
+    for restaurant in restaurants:
+        location, lat, lng = restaurant.location.split(',')
+        dict_data = restaurant.__dict__
+        dict_data.pop('_sa_instance_state')
+        dict_data.pop('location')
+        dict_data['location'] = location
+        dict_data['resultType'] = 'place'
+        dict_data['lat'] = lat;
+        dict_data['long'] = lng;
+        dict_data['image'] = dict_data.pop('logo')
+        dict_data['desc'] = dict_data.pop('description')
+        all_results.append(dict_data)
+    return prepareReply(hasResults, all_results, 'restaurant')
+
 if __name__ == '__main__':
     sendReply('find restaurants nearby')
