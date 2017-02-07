@@ -1,5 +1,6 @@
 var demo_location = [27.6750719,85.3140088];
 var mymap = L.map('mapid').setView(demo_location, 16);
+mymap.doubleClickZoom.disable(); 
 // var mymap = L.map('mapid', {doubleClickZoom: false}).locate({setView: true, maxZoom: 16});
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
