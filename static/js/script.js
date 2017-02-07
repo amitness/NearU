@@ -16,19 +16,23 @@ $(function() {
     	$.ajax({
         url: '/response',
         data: $('form').serialize(),
+        dataType: 'json',
         type: 'POST',
         success: function(response) {
-        	var replyMessage = 'Not found text.';
+        	var replyMessage = '';
         	console.log(response);
+        	console.log(response.hasResults)
+        	response = JSON.parse(response);
+            replyMessage = response.botReply;
             if(response.hasResults) {
-            	replyMessage = response.botReply;
             	var places = response.results;
+            	console.log(places)
             	if(places.length !== 0) {
             		for(var i = 0; i < places.length; i++) {
             			addPinpoint(places[i]);
             		}
             	}
-            }
+            } 
 
         	reply = botMessage + replyMessage + botEnd;
             $('.chat-history').append(reply);
@@ -52,13 +56,23 @@ $(function() {
 
 function addPinpoint(place) {
 	// Adds a pinpoint to Leafleft map
-	L.marker([place.lat, place.long])
-	.addTo(mymap)
-	.bindPopup(generateDetails(place), {className: 'card'});	
+	if (place.resultType=="place") {
+		L.marker([place.lat, place.long])
+		.addTo(mymap)
+		.bindPopup(generatePlaceDetails(place), {className: 'card'});	
+	} else {
+		L.marker([place.lat, place.long])
+		.addTo(mymap)
+		.bindPopup(generateEventDetails(place), {className: 'card'});
+	}
 }
 
-function generateDetails(place) {
-   return "<div class='card--small'><div class='card__image' style='background-image: url(https://placeimg.com/640/480/nature)'></div><h2 class='card__title'>" + place.title + "</h2><span class='card__subtitle'>" + place.desc + "</span><div class='card__action-bar'><a href='#'><button class='card__button button_sliding_bg'>SEE MORE</button></a></div>";
+function generatePlaceDetails(place) {
+   return "<div class='card--small'><div class='card__image' style='background-image: url(" + place.image + ")'></div><h2 class='card__title'>" + place.name + "</h2><span class='card__subtitle'>" + place.desc + "</span><div class='card__action-bar'><a href='place/" + place.id + "'><button class='card__button button_sliding_bg'>SEE MORE</button></a></div>";
+}
+
+function generateEventDetails(place) {
+   return "<div class='card--small'><div class='card__image' style='background-image: url(" + place.image + ")'></div><h2 class='card__title'>" + place.title + "</h2><span class='card__subtitle'>" + place.description + "</span><div class='card__action-bar'><a href='event/" + place.id + "'><button class='card__button button_sliding_bg'>SEE MORE</button></a></div>";
 }
 
 

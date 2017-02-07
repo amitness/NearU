@@ -1,9 +1,8 @@
 import os
 import json
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from models import db
 import chatbot
-# import requests
 
 app = Flask(__name__)
 
@@ -26,23 +25,23 @@ def home():
 
 @app.route('/response', methods=['POST'])
 def response():
-    # print requests;
-    dummy_response = {
-        'hasResults': True,
-        'results': [
-            {
-                'title': 'Event Name',
-                'desc': 'description',
-                'lat': 27.67410,
-                'long': 85.31710,
-                'location': 'location',
-                'image': 'image location',
-                'resultType': 'event/place'
-            }
-          ],
-        'botReply': 'Reply from bot.'
-    }
-    return jsonify(dummy_response)
+    # dummy_response = {
+    #     'hasResults': True,
+    #     'results': [
+    #         {
+    #             'title': 'Event Name',
+    #             'desc': 'description',
+    #             'lat': 27.67410,
+    #             'long': 85.31710,
+    #             'location': 'location',
+    #             'image': 'image location',
+    #             'resultType': 'event/place'
+    #         }
+    #       ],
+    #     'botReply': 'Reply from bot.'
+    # }
+    data = request.form['usermsg']
+    return jsonify(chatbot.sendReply(data))
 
 
 @app.route('/event/<id>')
