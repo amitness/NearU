@@ -14,7 +14,7 @@ The project was developed as part of a week long hackathon **Hack-A-Week** organ
 * [Wit.ai](http://wit.ai)
 
 ### Local Development
-To install these interactives on your local machine:
+To install these project on your local machine:
 * Clone this repository to your local machine.
 * In the directory where you placed the cloned repo, create a virtual environment for Python and project dependencies in a directory called "venv":
 ```shell
@@ -30,11 +30,19 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+* Set the environment variables
+```shell
+export WIT_ACCESS_TOKEN='Your access token for wit.ai'
+export DB_USERNAME='MySQL username'
+export DB_PASSWORD='MySQL password'
+```
+
 * Fire up your local webserver:
 ```shell
 python manage.py runserver
 ```
 * In a web browser, go to [localhost:8000](http://localhost:8000/), and you should see the development site! Please not that the terminal window you are running the development site in must stay open while you are using the site.
+
 * When development is complete, terminate the local web server by typing ```CONTROL + C```. Also deactivate the virtual environment:
 ```shell
 deactivate
