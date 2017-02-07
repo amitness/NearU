@@ -1,8 +1,8 @@
 import os
 import json
+import chatbot
 from flask import Flask, render_template, jsonify, request
 from models import db
-import chatbot
 
 app = Flask(__name__)
 
@@ -25,28 +25,13 @@ def home():
 
 @app.route('/response', methods=['POST'])
 def response():
-    # dummy_response = {
-    #     'hasResults': True,
-    #     'results': [
-    #         {
-    #             'title': 'Event Name',
-    #             'desc': 'description',
-    #             'lat': 27.67410,
-    #             'long': 85.31710,
-    #             'location': 'location',
-    #             'image': 'image location',
-    #             'resultType': 'event/place'
-    #         }
-    #       ],
-    #     'botReply': 'Reply from bot.'
-    # }
     data = request.form['usermsg']
-    return jsonify(chatbot.sendReply(data))
+    return jsonify(chatbot.send_reply(data))
 
 
 @app.route('/event/<id>')
 def event(id):
-    details = chatbot.getEventByID(id)
+    details = chatbot.get_event_by_id(id)
     details = json.loads(details)
     result = details['results'][0]
     return render_template('events.html', result=result)
@@ -54,7 +39,7 @@ def event(id):
 
 @app.route('/place/<id>')
 def place(id):
-    details = chatbot.getRestaurantsByID(id)
+    details = chatbot.get_restaurants_by_id(id)
     details = json.loads(details)
     result = details['results'][0]
     return render_template('place.html', result=result)

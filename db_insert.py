@@ -18,7 +18,7 @@ def insert_events():
 
 # Insert hotels/shops
 def insert_company():
-    companies = pandas.read_csv('company2.csv', quotechar='"', na_filter=False)
+    companies = pandas.read_csv('company.csv', quotechar='"', na_filter=False)
     for i in range(len(companies)):
         company = Company( companies['name'][i],
             companies['location'][i],

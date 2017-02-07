@@ -1,18 +1,19 @@
 from wit import Wit
 from app import db
 from models import Company, Events
+import os
 import json
-access_token = 'ERIZHU2Q3IYPCEMCXKGEL3DZIR3RQN4A'
 
+WIT_ACCESS_TOKEN = os.getenv('WIT_ACCESS_TOKEN')
 
-def processUserText(text):
-    client = Wit(access_token=access_token)
+def process_user_text(text):
+    client = Wit(access_token=WIT_ACCESS_TOKEN)
     resp = client.message(text)
     if(len(resp['entities'])==0): return 'error'
     return resp['entities']['filter'][0]['value']
 
 
-def prepareReply(hasResult, all_result, message):
+def prepare_reply(hasResult, all_result, message):
     reply = {}
     reply['hasResults'] = hasResult
     reply['results'] = all_result
@@ -20,7 +21,7 @@ def prepareReply(hasResult, all_result, message):
     return json.dumps(reply)
 
 
-def getRestaurants():
+def get_restaurants():
     restaurants = db.session.query(Company).filter_by(org_type='Restaurant').all()
     hasResults = len(restaurants)>0
     all_results = []
@@ -39,7 +40,7 @@ def getRestaurants():
     return hasResults, all_results
 
 
-def getEvents():
+def get_events():
     events = db.session.query(Events).all()
     hasResults = len(events)>0
     all_events = []
@@ -57,31 +58,31 @@ def getEvents():
     return hasResults, all_events
 
 
-def sendReply(userText):
-    keyword = processUserText(userText)
+def send_reply(userText):
+    keyword = process_user_text(userText)
     if keyword=='error':
         has_result = False
         result = []
         message = "Sorry, I didn't understand you"
     elif keyword == 'restaurants and bar':
-        has_result, result = getRestaurants()
+        has_result, result = get_restaurants()
         message = "Finding restaurants near you."
     elif keyword == 'event' or keyword=='events':
-        has_result, result = getEvents()
+        has_result, result = get_events()
         message = "Finding events near you."
     #elif keyword == 'none':
     else:
-        has_result1, result1 = getEvents()
-        has_result2, result2 = getRestaurants()
+        has_result1, result1 = get_events()
+        has_result2, result2 = get_restaurants()
         has_result = has_result1 or has_result2
         result = result1 + result2
         message = "Showing all results"
 
-    reply = prepareReply(has_result, result, message)
+    reply = prepare_reply(has_result, result, message)
     return reply
 
 
-def getEventByID(event_id):
+def get_event_by_id(event_id):
     events = db.session.query(Events).filter_by(id=event_id).all()
     hasResults = len(events)>0
     all_events = []
@@ -96,10 +97,10 @@ def getEventByID(event_id):
         eventDict.pop('_sa_instance_state')
         eventDict['image'] = eventDict.pop('banner')
         all_events.append(eventDict)
-    return prepareReply(hasResults, all_events, 'event')
+    return prepare_reply(hasResults, all_events, 'event')
 
 
-def getRestaurantsByID(r_id):
+def get_restaurants_by_id(r_id):
     restaurants = db.session.query(Company).filter_by(id=r_id).all()
     hasResults = len(restaurants) > 0
     all_results = []
@@ -115,7 +116,7 @@ def getRestaurantsByID(r_id):
         dict_data['image'] = dict_data.pop('logo')
         dict_data['desc'] = dict_data.pop('description')
         all_results.append(dict_data)
-    return prepareReply(hasResults, all_results, 'restaurant')
+    return prepare_reply(hasResults, all_results, 'restaurant')
 
 if __name__ == '__main__':
-    sendReply('find restaurants nearby')
+    send_reply('find restaurants nearby')
