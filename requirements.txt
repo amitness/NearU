@@ -13,6 +13,8 @@ pyparsing==2.1.10
 python-dateutil==2.6.0
 pytz==2016.10
 requests==2.13.0
+simplejson==3.10.0
 six==1.10.0
 SQLAlchemy==1.1.5
 Werkzeug==0.11.15
+wit==4.2.0
