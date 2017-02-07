@@ -2,6 +2,10 @@
 
 ![Screenshot](Screenshot.png?raw=true)
 
+NearU is a virtual assistant for tourists. They can interact with the bot to ask information about local cultural events and cuisines. The bot provides complete details about nearby events and visualizes them on a map.
+
+The project was developed as part of a week long hackathon "Hack-A-Week" organized as pre-event of LOCUS 2017. It was selected for the category "Art and Culture".
+
 ###Built With
 
 * [Python](https://www.python.org/)
