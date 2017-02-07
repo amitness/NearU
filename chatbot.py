@@ -8,14 +8,15 @@ access_token = 'ERIZHU2Q3IYPCEMCXKGEL3DZIR3RQN4A'
 def processUserText(text):
     client = Wit(access_token=access_token)
     resp = client.message(text)
+    if(len(resp['entities'])==0): return 'error'
     return resp['entities']['filter'][0]['value']
 
 
-def prepareReply(hasResult, all_result, resultType):
+def prepareReply(hasResult, all_result, message):
     reply = {}
     reply['hasResults'] = hasResult
     reply['results'] = all_result
-    reply['botReply'] = 'Query Complete. Showing results'
+    reply['botReply'] = message
     return json.dumps(reply)
 
 
@@ -58,18 +59,25 @@ def getEvents():
 
 def sendReply(userText):
     keyword = processUserText(userText)
-    if keyword == 'restaurants and bar':
+    if keyword=='error':
+        has_result = False
+        result = []
+        message = "Sorry, I didn't understand you"
+    elif keyword == 'restaurants and bar':
         has_result, result = getRestaurants()
+        message = "Finding restaurants near you."
     elif keyword == 'event' or keyword=='events':
         has_result, result = getEvents()
+        message = "Finding events near you."
     #elif keyword == 'none':
     else:
         has_result1, result1 = getEvents()
         has_result2, result2 = getRestaurants()
         has_result = has_result1 or has_result2
         result = result1 + result2
+        message = "Showing all results"
 
-    reply = prepareReply(has_result, result, keyword)
+    reply = prepareReply(has_result, result, message)
     return reply
 
 
