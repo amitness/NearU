@@ -1,9 +1,9 @@
 import os
+import json
 from flask import Flask, render_template, jsonify
 from models import db
 import chatbot
 # import requests
-# import json
 
 app = Flask(__name__)
 
@@ -47,12 +47,18 @@ def response():
 
 @app.route('/event/<id>')
 def event(id):
-    return chatbot.getEventByID(id)
+    details = chatbot.getEventByID(id)
+    details = json.loads(details)
+    result = details['results'][0]
+    return render_template('events.html', result=result)
 
 
 @app.route('/place/<id>')
 def place(id):
-    return chatbot.getRestaurantsByID(id)
+    details = chatbot.getRestaurantsByID(id)
+    details = json.loads(details)
+    result = details['results'][0]
+    return render_template('place.html', result=result)
 
 if __name__ == '__main__':
     print db
