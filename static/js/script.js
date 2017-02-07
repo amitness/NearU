@@ -21,12 +21,10 @@ $(function() {
         success: function(response) {
         	var replyMessage = '';
         	console.log(response);
-        	console.log(response.hasResults)
         	response = JSON.parse(response);
             replyMessage = response.botReply;
             if(response.hasResults) {
             	var places = response.results;
-            	console.log(places)
             	if(places.length !== 0) {
             		for(var i = 0; i < places.length; i++) {
             			addPinpoint(places[i]);
