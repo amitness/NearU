@@ -54,14 +54,11 @@ function addPinpoint(place) {
 	// Adds a pinpoint to Leafleft map
 	L.marker([place.lat, place.long])
 	.addTo(mymap)
-	.bindPopup(generateDetails(place));	
+	.bindPopup(generateDetails(place), {className: 'card'});	
 }
 
 function generateDetails(place) {
-	return "<b>" + place.title + "</b>"
-		   + "<br><p><b>Location:</b> " + place.location + "</p>"
-	       + "<b>Details:</b>"
-	       + "<br><p>" + place.desc + "</p>";
+   return "<div class='card--small'><div class='card__image' style='background-image: url(https://placeimg.com/640/480/nature)'></div><h2 class='card__title'>" + place.title + "</h2><span class='card__subtitle'>" + place.desc + "</span><div class='card__action-bar'><a href='#'><button class='card__button button_sliding_bg'>SEE MORE</button></a></div>";
 }
 
 
