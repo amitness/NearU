@@ -36,7 +36,7 @@ python manage.py runserver
 deactivate
 ```
 
-**Authors:**
+### Authors:
 - [Amit Chaudhary](https://github.com/studenton)
 - [Enosh Shrestha](https://github.com/eroj333)
 - [Kamal Paneru](https://github.com/Kamalpaneru)
